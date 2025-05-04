@@ -19,12 +19,6 @@ app.include_router(commercialization.router, prefix='/comercializacao', tags=['S
 app.include_router(importation.router, prefix='/importacao', tags=['Scrape'])
 app.include_router(export.router, prefix='/exportacao', tags=['Scrape'])
 
-# @app.get("/")
-# async def home():
-#     return {"message": "Wellcome to my home page."}
-
-#http://vitibrasil.cnpuv.embrapa.br/
-
 @app.get("/", response_class=HTMLResponse)
 async def home():
     html_content = """

@@ -2,8 +2,8 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from jose import JWTError, jwt
 from datetime import datetime
-from src.db.models.user import User  # ou onde estiver seu model
-from src.core.security import SECRET_KEY, ALGORITHM  # onde está sua SECRET_KEY, etc.
+from src.db.models.user import User  
+from src.core.security import SECRET_KEY, ALGORITHM  
 from src.db.session import get_db
 from sqlalchemy.orm import Session
 
@@ -26,7 +26,6 @@ def get_current_user(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Token inválido: user ausente",
             )
-        # Exemplo: você pode buscar o usuário no banco para validar
         user = db.query(User).filter(User.user == user).first()
         if not user:
             raise HTTPException(
