@@ -70,7 +70,7 @@ async def home():
             <a href="/docs" target="_blank">Abrir Swagger UI</a>
             <footer>
                 <p>Acesse o repositório no <strong>Github</strong> • 
-                <a href="https://github.com/murilobeltrame/tech-challenge-vitivinicultura-api" target="_blank">Ver no GitHub</a></p>
+                <a href="https://github.com/milerazevedo0/techchallenge_api_embrapa.git" target="_blank">Ver no GitHub</a></p>
             </footer>
         </div>
     </body>
