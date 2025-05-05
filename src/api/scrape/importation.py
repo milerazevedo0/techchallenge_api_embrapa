@@ -26,7 +26,7 @@ class SubopcaoImportation(str, Enum):
                  503: {"description": "Erro ao acessar a fonte de dados"},
              })
 async def importation(
-    ano: int = Query(..., ge=1970, le=2023, description="Informe o ano entre 1970 e 2023"), 
+    ano: int = Query(..., ge=1970, le=2024, description="Informe o ano entre 1970 e 2024"), 
     subopcao: Optional[SubopcaoImportation] = Query(None), 
     current_user: User = Depends(get_current_user)
     ):
