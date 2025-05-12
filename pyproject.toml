@@ -6,7 +6,7 @@ authors = [
     {name = "Miler",email = "estudos.miler@gmail.com"}
 ]
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.12.0,<4.0.0"
 dependencies = [
     "fastapi[standard] (>=0.115.12,<0.116.0)",
     "uvicorn (>=0.34.2,<0.35.0)",
@@ -18,7 +18,8 @@ dependencies = [
     "passlib (>=1.7.4,<2.0.0)",
     "python-jose (>=3.4.0,<4.0.0)",
     "bcrypt (>=4.3.0,<5.0.0)",
-    "requests (>=2.32.3,<3.0.0)"
+    "requests (>=2.32.3,<3.0.0)",
+    "poetry-plugin-shell (==1.0.1)"
 ]
 
 [tool.poetry]
