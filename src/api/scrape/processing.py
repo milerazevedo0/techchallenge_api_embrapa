@@ -14,7 +14,7 @@ class SubopcaoProcessing(str, Enum):
     subopt_03 = "uvas de mesa"
     subopt_04 = "sem classificacao"
 
-@router.get('/scrape/processing', 
+@router.get('/processing', 
              summary="Realiza a raspagem da aba de processamento",
              description="Realiza a raspagem da aba de processamento, com ou sem subopções e retorna os dados contidos na tabela selecionada.",
              responses={

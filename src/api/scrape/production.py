@@ -7,7 +7,7 @@ from src.core.dependencies import get_current_user
 
 router = APIRouter()
 
-@router.get('/scrape/production', 
+@router.get('/production', 
              summary="Realiza a raspagem da aba de produção",
              description="Realiza a raspagem da aba de produção, buscando a tabela e seus elementos. Retorna um JSON para consumo.",
              responses={
