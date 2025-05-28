@@ -15,7 +15,7 @@ class SubopcaoImportation(str, Enum):
     subopt_04 = "uvas passas"
     subopt_05 = "suco de uva"
 
-@router.get('/scrape/importation', 
+@router.get('/importation', 
              summary="Realiza a raspagem da aba de importação",
              description="Realiza a raspagem da aba de importação, com ou sem subopções e retorna os dados contidos na tabela selecionada.",
              responses={

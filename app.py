@@ -11,13 +11,13 @@ app = FastAPI()
 def startup():
     init_db()
 
-app.include_router(signup.router, prefix='/signup', tags=["Auth"])
-app.include_router(login.router, prefix='/login', tags=["Auth"])
-app.include_router(production.router, prefix='/producao', tags=['Scrape'])
-app.include_router(processing.router, prefix='/processamento', tags=['Scrape'])
-app.include_router(commercialization.router, prefix='/comercializacao', tags=['Scrape'])
-app.include_router(importation.router, prefix='/importacao', tags=['Scrape'])
-app.include_router(export.router, prefix='/exportacao', tags=['Scrape'])
+app.include_router(signup.router, tags=["Auth"])
+app.include_router(login.router, tags=["Auth"])
+app.include_router(production.router, tags=['Scrape'])
+app.include_router(processing.router, tags=['Scrape'])
+app.include_router(commercialization.router, tags=['Scrape'])
+app.include_router(importation.router, tags=['Scrape'])
+app.include_router(export.router, tags=['Scrape'])
 
 @app.get("/", response_class=HTMLResponse)
 async def home():

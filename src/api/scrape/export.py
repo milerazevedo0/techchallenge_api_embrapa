@@ -14,7 +14,7 @@ class SubopcaoExport(str, Enum):
     subopt_03 = "uvas frescas"
     subopt_04 = "suco de uva"
 
-@router.get('/scrape/export', 
+@router.get('/export', 
              summary="Realiza a raspagem da aba de exportação",
              description="Realiza a raspagem da aba de exportação, com ou sem subopções e retorna os dados contidos na tabela selecionada.",
              responses={

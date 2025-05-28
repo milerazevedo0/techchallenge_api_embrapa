@@ -30,25 +30,36 @@ Esta aplicação fornece uma API REST desenvolvida com **FastAPI** que realiza r
 
 
 ## 📥 Instalação
-Pré-requisitos: \
-Python 3.12+ \
-Poetry (gerenciador de pacotes)
+Pré-requisitos: 
+- Python 3.12+ 
+- Poetry 2+
 
 Passos para Instalação
 
-Clone o repositório: \
-git clone https://github.com/milerazevedo0/tech_challenge_embrapa_api/
+1. Clone o repositório: 
 
+```sh
+git clone https://github.com/milerazevedo0/tech_challenge_embrapa_api/`
 cd tech_challenge_embrapa_api
+```
 
-Instale as dependências com Poetry: \
+2. Instale as dependências com Poetry: 
+
+```sh
 poetry install
+```
 
-Ative o ambiente virtual: \
+3. Ative o ambiente virtual:
+
+```sh
 poetry shell
+```
 
-Inicie o servidor de desenvolvimento: \
+4. Inicie o servidor de desenvolvimento:
+
+```sh
 uvicorn app:app --reload
+```
 
 A API estará disponível em http://localhost:8000
 
@@ -61,67 +72,48 @@ ReDoc: http://localhost:8000/redoc
 🔐 Fluxo de Autenticação JWT
 A API utiliza autenticação JWT (JSON Web Token) para proteger os endpoints de scraping.
 
-🧾 1. Criar usuário
-Faça um POST para /auth/signup com os dados:
-{
-  "username": "seu_usuario",
-  "password": "sua_senha"
-}
+### 🧾 1. Criar usuário
+Faça um POST para `/auth/signup` com os dados:
 
-🔑 2. Fazer login
-Faça um POST para /auth/login com os mesmos dados:
+```json
 {
   "username": "seu_usuario",
   "password": "sua_senha"
 }
+```
+
+### 🔑 2. Fazer login
+Faça um POST para `/auth/login` com os mesmos dados:
+
+```json
+{
+  "username": "seu_usuario",
+  "password": "sua_senha"
+}
+```
 
 💡 A resposta será um token JWT:
+```json
 {
   "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
   "token_type": "bearer"
 }
+```
 
-📋 3. Autenticar nas rotas de scraping \
+### 📋 3. Autenticar nas rotas de scraping
 Copie o token retornado no login e informe no cabeçalho Authorization das demais rotas assim:
-Authorization: Bearer SEU_TOKEN_JWT
+`Authorization: Bearer SEU_TOKEN_JWT`
 
 Você pode testar diretamente no Swagger UI:
 
-Acesse http://localhost:8000/docs
-
-Clique em Authorize no topo
-
-Digite Bearer SEU_TOKEN_AQUI
+ 1. Acesse http://localhost:8000/docs
+ 2. Clique em Authorize no topo
+ 3. Digite Bearer SEU_TOKEN_AQUI
 
 Teste as rotas com autenticação ativada
 
-## 📥 Rotas de Scraping
-🔎 /scrape/processing
-Retorna dados da aba de processamento, exigindo ano e subopção:
-
-GET /scrape/processing?ano=2022&subopcao=subopt_02
-
-ano: entre 1970 e 2023
-
-subopcao:
-
-subopt_01 → viníferas
-
-subopt_02 → americanas e híbridas
-
-subopt_03 → uvas de mesa
-
-subopt_04 → sem classificação
-
 ## 📌 Observações
 A raspagem depende da estrutura atual do site da Embrapa, que pode mudar.
-
-O projeto pode ser adaptado para novas abas (opcao) e novas subcategorias (subopcao).
-
-O retorno é convertido para JSON estruturado com cabeçalhos e linhas mapeadas corretamente.
-
-## 🤝 Contribuições
-Contribuições são bem-vindas! Você pode abrir uma issue, forkear o repositório ou abrir um PR com sugestões ou melhorias.
 
 ## 📄 Licença
 Este projeto é open-source e licenciado sob a MIT License.
