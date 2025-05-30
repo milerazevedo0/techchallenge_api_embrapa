@@ -1,4 +1,4 @@
-from pydantic import BaseModel, validator, Field, field_validator
+from pydantic import BaseModel, Field, field_validator
 import re
 
 def has_letter(s: str) -> bool:

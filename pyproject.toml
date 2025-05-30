@@ -29,6 +29,10 @@ packages = [{include = "techchallenge1", from = "src"}]
 dev = "uvicorn techchallenge1.app:app --reload"
 
 
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.5"
+pytest-cov = "^6.1.1"
+
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
