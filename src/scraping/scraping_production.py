@@ -1,10 +1,12 @@
 # type: ignore
 from bs4 import BeautifulSoup
+from pydantic import BaseModel
 
-class Production:
+class Production(BaseModel):
     item: str
     subitem: str
     quantity: int
+    year: int
 
 def parse_production(content:str) -> list[Production]:
     productions:list[Production] = []
