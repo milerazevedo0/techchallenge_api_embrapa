@@ -9,7 +9,7 @@ engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 def init_db():
-    from src.db.models import user  
+    from src.db.models import user, production  # Import models to ensure they are registered
     Base.metadata.create_all(bind=engine)
 
 def get_db():
