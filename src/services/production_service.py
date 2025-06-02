@@ -1,3 +1,4 @@
+import datetime
 import requests
 from sqlalchemy.orm import Session
 from src.db.models.production import ProductionModel
@@ -7,12 +8,14 @@ from typing import List
 
 def handle_production(year: int, item: str | None) -> List[Production]:
     # Query existing data
+    two_hours_ago = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(hours=2)
     db: Session = next(get_db())
     query = db.query(ProductionModel)
     if year:
         query = query.filter(ProductionModel.year == year)
     if item:
         query = query.filter(ProductionModel.item == item)
+    query = query.filter(ProductionModel.importedAt.__lt__(two_hours_ago))
     existing_data = query.all()
     
     # If no data exists, scrape and save
@@ -22,7 +25,8 @@ def handle_production(year: int, item: str | None) -> List[Production]:
         if response.status_code != 200:
             raise Exception(f"Failed to fetch data for year {year} and item {item}. Status code: {response.status_code}")
         scraped_data = parse_production(response.text)
-        
+
+        db.delete(db.query(ProductionModel).filter(ProductionModel.year == year))  # Clear existing data for the year/item if any
         # Convert and save to database
         for production in scraped_data:
             db_production = ProductionModel(
