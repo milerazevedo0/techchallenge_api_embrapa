@@ -4,9 +4,8 @@ from sqlalchemy.orm import Session
 from src.db.models.production import ProductionModel
 from src.db.session import get_db
 from src.scraping.scraping_production import Production, parse_production
-from typing import List
 
-def handle_production(year: int, item: str | None) -> List[Production]:
+def handle_production(year: int, item: str | None) -> list[Production]:
     # Query existing data
     two_hours_ago = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(hours=2)
     db: Session = next(get_db())
@@ -15,8 +14,7 @@ def handle_production(year: int, item: str | None) -> List[Production]:
         query = query.filter(ProductionModel.year == year)
     if item:
         query = query.filter(ProductionModel.item == item)
-    query = query.filter(ProductionModel.importedAt.__lt__(two_hours_ago))
-    existing_data = query.all()
+    existing_data = query.filter(ProductionModel.importedAt.__lt__(two_hours_ago)).all()
     
     # If no data exists, scrape and save
     if not existing_data:
@@ -26,7 +24,8 @@ def handle_production(year: int, item: str | None) -> List[Production]:
             raise Exception(f"Failed to fetch data for year {year} and item {item}. Status code: {response.status_code}")
         scraped_data = parse_production(response.text)
 
-        db.delete(db.query(ProductionModel).filter(ProductionModel.year == year))  # Clear existing data for the year/item if any
+        db.query(ProductionModel).filter(ProductionModel.year == year).delete()
+        db.commit()  # Clear existing data for the year/item if any
         # Convert and save to database
         for production in scraped_data:
             db_production = ProductionModel(
@@ -50,5 +49,5 @@ def handle_production(year: int, item: str | None) -> List[Production]:
     return [Production(
         item=str(p.item), 
         subitem=str(p.subitem), 
-        quantity=int(p.quantity), 
-        year=int(p.year)) for p in read]
+        quantity=int(p.quantity)
+    ) for p in read]

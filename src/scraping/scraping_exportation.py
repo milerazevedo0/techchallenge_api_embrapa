@@ -1,11 +1,12 @@
 # type: ignore
 from bs4 import BeautifulSoup
+from pydantic import BaseModel
 
-class Exportation:
+class Exportation(BaseModel):
     country: str
     quantity: int
     value: int
-    option: str
+    suboption: str
 
 def parse_exportation(content: str) -> list[Exportation]:
     exportations: list[Exportation] = []
@@ -18,27 +19,32 @@ def parse_exportation(content: str) -> list[Exportation]:
     for row in tbody.find_all('tr'):
         cells = row.find_all('td')
         if cells and len(cells) >= 3:
-            exportation = Exportation()
-            exportation.option = option_button.text.strip()
-            exportation.country = cells[0].text.strip()
-
+            quantity_value = 0
             quantity_text = cells[1].text.strip().replace('.', '')
             if quantity_text == '-':
-                exportation.quantity = 0
+                quantity_value = 0
             else:
                 try:
-                    exportation.quantity = int(quantity_text)
+                    quantity_value = int(quantity_text)
                 except ValueError:
-                    exportation.quantity = 0
+                    quantity_value = 0
             
+            value_value = 0
             value_text = cells[2].text.strip().replace('.', '')
             if value_text == '-':
-                exportation.value = 0
+                value_value = 0
             else:
                 try:
-                    exportation.value = int(value_text)
+                    value_value = int(value_text)
                 except ValueError:
-                    exportation.value = 0
+                    value_value = 0
+
+            exportation = Exportation(
+                country=cells[0].text.strip(),
+                quantity=quantity_value,
+                value=value_value,
+                suboption=option_button.text.strip() if option_button else ''
+            )
 
             exportations.append(exportation)
 

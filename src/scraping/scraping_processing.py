@@ -1,7 +1,8 @@
 # type: ignore
 from bs4 import BeautifulSoup
+from pydantic import BaseModel
 
-class Processing:
+class Processing(BaseModel):
     suboption: str
     subitem: str
     item: str
@@ -24,16 +25,18 @@ def parse_processing(content: str) -> list[Processing]:
             
             subitem_cell = row.find('td', class_='tb_subitem')
             if subitem_cell and current_item:
-                processing = Processing()
-                processing.item = current_item
-                processing.subitem = subitem_cell.text.strip()
-                processing.suboption = suboption_text
-                
+                quantity_value = 0
                 quantity_text = row.find_all('td')[-1].text.strip()
                 try:
-                    processing.quantity = int(quantity_text.replace('.', ''))
+                    quantity_value = int(quantity_text.replace('.', ''))
                 except (ValueError, AttributeError):
-                    processing.quantity = 0
+                    quantity_value = 0
+
+                processing = Processing(
+                    suboption=suboption_text, 
+                    subitem=subitem_cell.text.strip(), 
+                    item=current_item, 
+                    quantity=quantity_value)
                 
                 processing_list.append(processing)
 

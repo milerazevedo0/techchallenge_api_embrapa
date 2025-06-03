@@ -6,7 +6,6 @@ class Production(BaseModel):
     item: str
     subitem: str
     quantity: int
-    year: int
 
 def parse_production(content:str) -> list[Production]:
     productions:list[Production] = []
@@ -23,16 +22,19 @@ def parse_production(content:str) -> list[Production]:
             
             subitem_cell = row.find('td', class_='tb_subitem')
             if subitem_cell and current_item:
-                production = Production()
-                production.item = current_item
-                production.subitem = subitem_cell.text.strip()
-                
+                quantity_value = 0
                 quantity_text = row.find_all('td')[-1].text.strip()
                 try:
-                    production.quantity = int(quantity_text.replace('.', ''))
+                    quantity_value = int(quantity_text.replace('.', ''))
                 except (ValueError, AttributeError):
-                    production.quantity = 0
-                    
+                    quantity_value = 0
+
+                production = Production(
+                    item=current_item, 
+                    subitem=subitem_cell.text.strip(), 
+                    quantity=quantity_value
+                )
+                
                 productions.append(production)
 
     return productions
