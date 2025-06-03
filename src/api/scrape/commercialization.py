@@ -1,8 +1,7 @@
 from fastapi import APIRouter, Depends, Query
-from fastapi.responses import JSONResponse
-from src.scraping.scraping_base import scrape_table
 from src.db.models.user import User
 from src.core.dependencies import get_current_user
+from src.services.commercialization_service import handle_commercialization
 
 
 router = APIRouter()
@@ -19,7 +18,7 @@ router = APIRouter()
              })
 async def commercialization(
     ano: int = Query(..., ge=1970, le=2023, description="Informe o ano entre 1970 e 2023"),
-    current_user: User = Depends(get_current_user)
+    _: User = Depends(get_current_user)
     ):
-    dados = scrape_table(ano, 'opt_04')
-    return JSONResponse(content=dados)
+    dados = handle_commercialization(year=ano, item=None)
+    return dados

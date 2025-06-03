@@ -1,7 +1,8 @@
 # type: ignore
 from bs4 import BeautifulSoup
+from pydantic import BaseModel
 
-class Comercialization:
+class Comercialization(BaseModel):
     item: str
     subitem: str
     quantity: int
@@ -21,16 +22,18 @@ def parse_commercialization(content:str) -> list[Comercialization]:
             
             subitem_cell = row.find('td', class_='tb_subitem')
             if subitem_cell and current_item:
-                commercialization = Comercialization()
-                commercialization.item = current_item
-                commercialization.subitem = subitem_cell.text.strip()
-                
+                quantity_value = 0
                 quantity_text = row.find_all('td')[-1].text.strip()
                 try:
-                    commercialization.quantity = int(quantity_text.replace('.', ''))
+                    quantity_value = int(quantity_text.replace('.', ''))
                 except (ValueError, AttributeError):
-                    commercialization.quantity = 0
-                    
+                    quantity_value = 0
+
+                commercialization = Comercialization(
+                    item=current_item, 
+                    subitem=subitem_cell.text.strip(), 
+                    quantity=quantity_value
+                )
                 commercializations.append(commercialization)
 
     return commercializations
